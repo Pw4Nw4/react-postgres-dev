@@ -1,0 +1,64 @@
+
+---
+
+### docker-compose.yml  
+```yaml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      POSTGRES_DB: mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@domain.com
+      PGADMIN_DEFAULT_PASSWORD: "${FB_ADMIN_PASSWORD}"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+
+  react-dev:
+    image: node:18-alpine
+    container_name: react-dev
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    command: sh -c "npm install && npm start"
+
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      FB_ADMIN_USERNAME: "${FB_ADMIN_USERNAME}"
+      FB_ADMIN_PASSWORD: "${FB_ADMIN_PASSWORD}"
+    volumes:
+      - ./app:/srv
+      - filebrowser_db:/database
+
+volumes:
+  db_data:
+  pgadmin_data:
+  filebrowser_db:

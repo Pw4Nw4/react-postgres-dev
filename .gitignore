@@ -1,0 +1,10 @@
+# Node
+app/node_modules/
+
+# Env
+.env
+
+# Docker volumes (local data)
+db_data/
+pgadmin_data/
+filebrowser_db/
