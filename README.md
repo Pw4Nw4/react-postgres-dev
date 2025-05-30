@@ -8,7 +8,7 @@
 
 ## Quickstart
 
-1. Fill your `.env` .  
+1. Fill your `.env`.  
 2. Place your React source in `app/` (or start with `npx create-react-app app`).  
 3. Run:
    ```bash
